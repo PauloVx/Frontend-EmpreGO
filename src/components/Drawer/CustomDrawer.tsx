@@ -7,9 +7,8 @@ import { StyleSheet, View } from 'react-native';
 
 const CustomDrawer = (props: any) => {
   async function logout() {
-    const navigation = useNavigation();
     await AppStorage.deleteData("token_jwt");
-    navigation.navigate('Login');
+    props.navigation.navigate('Login');
   }
   
 

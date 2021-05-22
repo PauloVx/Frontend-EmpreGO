@@ -67,7 +67,7 @@ export function Cadastro() {
 
       if(authData.auth) {
         await AppStorage.storeData("token_jwt", authData.token);
-        navigation.navigate('Dashboard');
+        navigation.navigate('Logado');
         console.info("LOGADO COM SUCESSO ATRAVÉS DO CADASTRO");
       }
     })

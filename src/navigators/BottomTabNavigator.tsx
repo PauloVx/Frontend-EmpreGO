@@ -15,9 +15,9 @@ const BottomTabNavigator = () => {
     
           switch (route.name) {
             case 'Trabalhar':
-              return <FontAwesome5 color={ color } name="user-tie" size={22}/>
+              return <FontAwesome5 color={ color } name="user-tie" size={size}/>
             case 'Empregar':
-              return <Ionicons color={ color } name="briefcase" size={ 20 }></Ionicons>
+              return <Ionicons color={ color } name="briefcase" size={ size }></Ionicons>
           }
         },
       })}

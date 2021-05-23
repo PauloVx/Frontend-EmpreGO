@@ -8,8 +8,13 @@ import { Entypo } from '@expo/vector-icons';
 import { globalColors } from '../../globalStyles';
 
 const Header = (props: any) => {
-    function openDrawer() {
-        props.scene.descriptor.navigation.openDrawer()
+
+    function openLeftDrawer() {
+        props.scene.descriptor.navigation.dangerouslyGetParent().openDrawer();
+    }
+
+    function openRightDrawer() {
+        props.scene.descriptor.navigation.openDrawer();
     }
 
     return (
@@ -17,7 +22,7 @@ const Header = (props: any) => {
 
           <TouchableOpacity>
             <View>
-              <Entypo onPress={ openDrawer } name="menu" size={30} color={globalColors.startGradientColor} />
+              <Entypo onPress={ openLeftDrawer } name="menu" size={30} color={globalColors.startGradientColor} />
             </View>
           </TouchableOpacity>
 
@@ -25,7 +30,7 @@ const Header = (props: any) => {
 
           <TouchableOpacity>
             <View>
-              <Entypo name="magnifying-glass" size={28} color={globalColors.startGradientColor} />
+              <Entypo onPress={ openRightDrawer } name="magnifying-glass" size={28} color={globalColors.startGradientColor} />
             </View>
           </TouchableOpacity>
         </View>

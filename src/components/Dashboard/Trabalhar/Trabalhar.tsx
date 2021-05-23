@@ -14,12 +14,7 @@ import MapView from 'react-native-maps';
 import { AntDesign } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { globalColors } from '../../../globalStyles';
-
-interface Job {
-  id: number,
-  content: string,
-  author: string
-}
+import { Job } from '../../../models/Job';
 
 export function Trabalhar() {
 

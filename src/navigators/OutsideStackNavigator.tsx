@@ -8,10 +8,10 @@ import { InsideStackNavigator } from './InsideStackNavigator';
 const OutsideStackNavigator = () => {
     const Stack = createStackNavigator();
     return (
-      <Stack.Navigator headerMode="none">
-        <Stack.Screen name="Login" component={Login}></Stack.Screen>
-        <Stack.Screen name="Cadastro" component={Cadastro}></Stack.Screen>
-        <Stack.Screen name="Logado" component={InsideStackNavigator}></Stack.Screen>
+      <Stack.Navigator headerMode="none" >
+        <Stack.Screen options={{ headerShown: false }} name="Login" component={Login}></Stack.Screen>
+        <Stack.Screen options={{ headerShown: false }} name="Cadastro" component={Cadastro}></Stack.Screen>
+        <Stack.Screen options={{ headerShown: false }} name="Logado" component={InsideStackNavigator}></Stack.Screen>
       </Stack.Navigator>
     )
 }

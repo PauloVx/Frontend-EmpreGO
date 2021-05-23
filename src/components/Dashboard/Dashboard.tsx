@@ -43,20 +43,7 @@ export function Dashboard() {
   return (
     <LinearGradient colors={[globalColors.startGradientColor, globalColors.endGradientColor ]} style={styles.gradientContainer}>
       <View style={ styles.contentContainer }>
-        <View style={styles.header}>
 
-          <TouchableOpacity>
-            <View>
-              <Entypo name="menu" size={30} color={globalColors.startGradientColor} />
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <View>
-              <Entypo name="magnifying-glass" size={28} color={globalColors.startGradientColor} />
-            </View>
-          </TouchableOpacity>
-        </View>
       </View>
     </LinearGradient>
   )

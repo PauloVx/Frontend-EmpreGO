@@ -12,7 +12,7 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
   
 
   const iconSize = 20;
-  const activeColor = '#EF7562';
+  const activeColor = '#FF5F61';
   const inactiveColor = '#555';
 
     return (
@@ -56,7 +56,7 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
     },
 
     profileContainer: {
-      backgroundColor: '#EF7562',
+      backgroundColor: '#FF5F61',
       height: '20%',
       flexDirection: 'row',
       padding: 10,

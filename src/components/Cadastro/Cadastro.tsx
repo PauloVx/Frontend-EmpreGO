@@ -61,6 +61,12 @@ export function Cadastro() {
       return;
     }
 
+    if(!fullName || !email || !cpf || !password || !confirmPassword) {
+      setErrorMessage("Preencha todos os campos");
+      setErrorVisible(true);
+      return;
+    }
+
     await api.post(API_CADASTRO_ENDPOINT, signUpData)
     .then(async (response: AxiosResponse<any>) => {
       const authData: AuthResponse = response.data;

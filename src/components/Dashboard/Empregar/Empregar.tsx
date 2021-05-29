@@ -23,21 +23,18 @@ const placeholderData: Array<Job> = [
 
 const listItem = (jobs: ListRenderItemInfo<Job>): JSX.Element => {
   const job: Job = jobs.item;
+  const contentLimitado: string = job.content.substring(0, 50);
 
   return (
     <View style={styles.itemContainer}>
-      <TouchableOpacity>
+      <TouchableOpacity style={styles.btnItem}>
         <View>
-          <View></View>
+          <Text style={styles.itemTitle}>Placeholder</Text>
+          <Text style={styles.itemContent}>{ contentLimitado }</Text>
         </View>
 
         <View>
-          <Text>Placeholder</Text>
-          <Text>{ job.content }</Text>
-        </View>
-
-        <View>
-          <Entypo name="chevron-right" size={24} color="#EF7562" />
+          <Entypo name="chevron-right" size={28} color="#EF7562" />
         </View>
       </TouchableOpacity>
     </View>
@@ -56,8 +53,10 @@ const Empregar = (): JSX.Element => {
 
       <View style={styles.btnContainer}>
         <TouchableOpacity>
-          <View style={styles.btnNew}>
-            <Entypo name="plus" size={52} color="#EF7562" />
+          <View style={styles.shadowBtn}>
+            <View style={styles.btnNew}>
+              <Entypo name="plus" size={52} color="#EF7562" />
+            </View>
           </View>
         </TouchableOpacity>
       </View>
@@ -72,6 +71,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
+  shadowBtn: {
+    borderRadius: 500,
+  },
+
   btnNew: {
     backgroundColor: '#FFF',
     borderRadius: 500,
@@ -80,7 +83,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
 
     height: 60,
-    width: 60
+    width: 60,
+
+    borderColor: '#EF7562',
+    borderWidth: 1
   },
 
   btnContainer: {
@@ -106,7 +112,27 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     marginTop: 25,
     borderRadius: 15,
-    height: 70
+    height: 70,
+  },
+
+  btnItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 15,
+    height: '100%',
+    justifyContent: 'space-between',
+    paddingHorizontal: 15
+  },
+
+  itemTitle: {
+    fontWeight: 'bold',
+    fontSize: 15,
+    color: '#444'
+  },
+
+  itemContent: {
+    fontSize: 11,
+    color: '#777'
   }
 })
 

@@ -2,18 +2,17 @@ import React from 'react';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { BottomTabNavigator } from './BottomTabNavigator';
-import { CustomDrawer } from '../components/Drawer/CustomDrawer';
+import { LeftDrawer } from '../components/Drawer/LeftDrawer';
 import { Header } from '../components/Header/Header';
-import { View } from 'react-native';
-import { DrawerHeaderProps } from '@react-navigation/drawer/lib/typescript/src/types';
+import { RightDrawer } from '../components/Drawer/RightDrawer';
 
   const RightDrawerNavigator = () => {
-    const RightDrawer = createDrawerNavigator()
+    const Drawer = createDrawerNavigator()
   
     return (
-        <RightDrawer.Navigator drawerPosition="right" drawerContent={(props) => <View {...props} />} screenOptions={{ headerShown: true, header: (props) => Header(props) }} >
-            <RightDrawer.Screen name="Início" component={BottomTabNavigator}></RightDrawer.Screen>
-        </RightDrawer.Navigator>
+        <Drawer.Navigator drawerPosition="right" drawerContent={(props) => <RightDrawer {...props} />} screenOptions={{ headerShown: true, header: (props) => Header(props) }} >
+            <Drawer.Screen name="Início" component={BottomTabNavigator}></Drawer.Screen>
+        </Drawer.Navigator>
     )
   }
   
@@ -21,7 +20,7 @@ import { DrawerHeaderProps } from '@react-navigation/drawer/lib/typescript/src/t
 const InsideStackNavigator = () => {
     const Drawer = createDrawerNavigator();
     return (
-        <Drawer.Navigator drawerPosition="left" drawerContent={(props) => <CustomDrawer {...props} /> } >
+        <Drawer.Navigator drawerPosition="left" drawerContent={(props) => <LeftDrawer {...props} /> } >
             <Drawer.Screen name="RightDrawer" component={RightDrawerNavigator}></Drawer.Screen>
         </Drawer.Navigator>
     )

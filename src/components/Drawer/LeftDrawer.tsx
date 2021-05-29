@@ -4,7 +4,7 @@ import { Feather, Ionicons, Entypo, AntDesign, FontAwesome5, SimpleLineIcons   }
 import { AppStorage } from '../../utils/Storage';
 import { StyleSheet, View, Image, Text } from 'react-native';
 
-const CustomDrawer = (props: DrawerContentComponentProps) => {
+const LeftDrawer = (props: DrawerContentComponentProps) => {
   async function logout() {
     await AppStorage.deleteData("token_jwt");
     props.navigation.navigate('Login');
@@ -110,4 +110,4 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
     }
   })
 
-  export { CustomDrawer };
+  export { LeftDrawer };

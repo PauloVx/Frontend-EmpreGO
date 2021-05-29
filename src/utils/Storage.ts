@@ -13,10 +13,11 @@ export class AppStorage {
     console.info(`STORED KEY: ${key}, VALUE: ${value} on local storage.`);
   }
 
-  public static async readData(key: string): Promise<string | null> {
+  public static async readData(key: string): Promise<any | null> {
     let value = null;
     try {
       value = await AsyncStorage.getItem(key);
+      if(value !== null) value = JSON.parse(value);
     }
     catch(err) {
       console.error('Unable to retrieve data from local storage: ' + err);

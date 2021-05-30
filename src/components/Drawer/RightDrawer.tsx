@@ -71,7 +71,7 @@ const RightDrawer = (props: DrawerContentComponentProps): JSX.Element => {
 
             <View>
                 <View style={styles.textContainer}>
-                    <Text style={{ color: '#FF5F61', fontSize: 15, fontWeight: 'bold' }}>Histórico de Pesquisa</Text>
+                    <Text style={{ color: '#FF5F61', fontSize: 13, fontWeight: 'bold' }}>Histórico de Pesquisa</Text>
                 </View>
                 <View>
                     <FlatList
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     textInput: {
         flex: 1,
         color: '#333',
-        fontSize: 15
+        fontSize: 11
     },
 
     textContainer: {

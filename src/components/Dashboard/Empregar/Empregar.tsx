@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   itemContainer: {
     backgroundColor: '#FFF',
     marginHorizontal: 15,
-    marginTop: 25,
+    marginTop: 10,
     borderRadius: 15,
     height: 70,
   },

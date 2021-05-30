@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -44,6 +44,20 @@ export function Login() {
   const [errorVisible, setErrorVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState('Erro desconhecido');
 
+  const [jwt, setJwt] = useState('');
+
+  async function checkIfJwtExists() {
+    await AppStorage.readData('token_jwt').then(token => setJwt(token));
+  }
+
+  useEffect(() => {
+    checkIfJwtExists();
+
+    if(!jwt) return;
+
+    navigation.navigate('Logado');
+  }, [])
+
   async function login(): Promise<void> {
     if(!email || !password) {
       setErrorMessage('Preencha todos os campos');
@@ -68,7 +82,6 @@ export function Login() {
     }
     catch(err) {
       const typedError: AxiosError = err;
-        console.log(typedError.response?.status);
         if(typedError.response?.status == 401) {
           setErrorMessage('Email ou senha incorretos');
           setErrorVisible(true);

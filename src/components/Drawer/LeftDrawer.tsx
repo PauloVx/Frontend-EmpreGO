@@ -19,7 +19,7 @@ const LeftDrawer = (props: DrawerContentComponentProps) => {
       <>
         <View style={styles.profileContainer}>
           <View style={ styles.imageView }>
-            <Image style={ styles.image } source={ require('../../../assets/techtips.png') } />
+            <Image style={ styles.image } source={ require('../../../assets/default.png') } />
           </View>
 
           <View style={ styles.profileData }>

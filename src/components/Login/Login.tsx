@@ -20,10 +20,12 @@ import { Entypo } from '@expo/vector-icons';
 import { globalColors } from '../../globalStyles';
 import { api } from '../../services/api';
 import { API_LOGIN_ENDPOINT } from '../../config/config';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 
 import { AppStorage } from '../../utils/Storage';
 import { AuthResponse } from '../../models/AuthResponse';
+
+import { Snackbar } from 'react-native-paper';
 
 interface LoginData {
   email: string,
@@ -39,7 +41,15 @@ export function Login() {
   const [secureTextToggle, setSecureTextToggle] = useState<boolean>(true);
   const [eyePasswordIcon, setEyePasswordIcon] = useState<any>('eye');
 
+  const [errorVisible, setErrorVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('Erro desconhecido');
+
   async function login(): Promise<void> {
+    if(!email || !password) {
+      setErrorMessage('Preencha todos os campos');
+      setErrorVisible(true);
+      return;
+    }
 
     const loginData: LoginData = {
       email,
@@ -57,9 +67,19 @@ export function Login() {
       }
     }
     catch(err) {
-        //Mostrar alerta para o usuario saber que o login ou senha estão incorretos.
-        //Não vou redirecionar usuario que nao foi logado.
-        console.error("CREDENCIAIS INCORRETAS", err); //placeholder
+      const typedError: AxiosError = err;
+        console.log(typedError.response?.status);
+        if(typedError.response?.status == 401) {
+          setErrorMessage('Email ou senha incorretos');
+          setErrorVisible(true);
+          return;
+        }
+
+        if(!typedError.response?.status) {
+          setErrorMessage('A conexão com o servidor falhou.');
+          setErrorVisible(true);
+          return;
+        }
     }
   }
 
@@ -136,6 +156,20 @@ export function Login() {
               <Text style={styles.btnSignUpText}>Cadastre-se</Text>
             </TouchableOpacity>
           </View>
+
+          <Snackbar
+            visible={errorVisible}
+            onDismiss={() => {}}
+            action={{
+              label: 'OK',
+              onPress: () => {
+                setErrorVisible(false)
+              },
+            }}
+            style={{backgroundColor: "white"}}
+          >
+          <View><Text>{errorMessage}</Text></View>
+        </Snackbar>
 
           
         </KeyboardAvoidingView>

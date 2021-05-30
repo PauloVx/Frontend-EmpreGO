@@ -40,7 +40,7 @@ export function Trabalhar() {
         <View style={ styles.imageColumn }>
           <TouchableOpacity>
             <View style={ styles.imageView }>
-              <Image style={ styles.image } source={ require('../../../../assets/techtips.png') }/>
+              <Image style={ styles.image } source={ require('../../../../assets/default.png') }/>
             </View>
           </TouchableOpacity>
         </View>

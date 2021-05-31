@@ -14,16 +14,14 @@ export const styles = StyleSheet.create({
   },
 
   imageView: {
-    borderColor: '#F00',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    width: '90%',
-    height: '30%',
+    width: '100%',
+    height: '50%',
+    padding: 40,
+  },
 
-    marginBottom: 30,
-
-    paddingVertical: 30,
-    paddingHorizontal: 10
+  image: {
+    width: '100%',
+    height: '100%'
   },
 
   title: {

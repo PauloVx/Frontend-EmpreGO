@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   Text,
+  Image,
   View,
   KeyboardAvoidingView,
   TouchableOpacity,
@@ -116,7 +117,7 @@ export function Login() {
         <KeyboardAvoidingView style={styles.container} behavior="height">
         
             <View style={styles.imageView}>
-
+              <Image style={ styles.image } resizeMode="contain" source={ require('../../../assets/Logo.png') }/>
             </View>
 
           <View style={styles.fieldsView}>

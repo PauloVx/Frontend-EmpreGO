@@ -6,5 +6,6 @@ export const API_PORT = process.env.API_PORT || 3000
 export const API_URL = `http://${API_HOST}:${API_PORT}`
 export const API_CADASTRO_ENDPOINT = `cadastrar`;
 export const API_LOGIN_ENDPOINT = `/login`;
+export const API_PERFIL_ENDPOINT = `/perfil`;
 
 //TODO add dotenv

@@ -1,16 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { DrawerContentComponentProps, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { Feather, Ionicons, Entypo, AntDesign, FontAwesome5, SimpleLineIcons   } from '@expo/vector-icons';
 import { AppStorage } from '../../utils/Storage';
 import { StyleSheet, View, Image, Text } from 'react-native';
+import { User } from '../../models/User';
+import { AxiosError, AxiosResponse } from 'axios';
+import { api } from '../../services/api';
+import { API_PERFIL_ENDPOINT } from '../../config/config';
+import { useFocusEffect } from '@react-navigation/core';
 
 const LeftDrawer = (props: DrawerContentComponentProps) => {
+  const [user, setUser] = useState<User>();
+
   async function logout() {
     await AppStorage.deleteData("token_jwt");
     props.navigation.navigate('Login');
   }
-  
 
+  async function getUserData() {
+    await AppStorage.readData("token_jwt").then(async jwt => {
+      try {
+        const responseData: AxiosResponse<any> = await api.get(API_PERFIL_ENDPOINT, { headers: { Authorization: 'bearer ' + jwt } });
+        const { user } = await responseData.data;
+        console.log(user)
+        setUser(user);
+      }
+      catch(e) {
+        const error: AxiosError = e;
+        console.log(error.message)
+      }
+    })
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getUserData();
+    }, [])
+  );
+  
   const iconSize = 20;
   const activeColor = '#FF5F61';
   const inactiveColor = '#555';
@@ -19,12 +46,12 @@ const LeftDrawer = (props: DrawerContentComponentProps) => {
       <>
         <View style={styles.profileContainer}>
           <View style={ styles.imageView }>
-            <Image style={ styles.image } source={ require('../../../assets/default.png') } />
+            <Image style={ styles.image } source={ user?.imagemPefil ? user.imagemPefil : require('../../../assets/default.png') } />
           </View>
 
           <View style={ styles.profileData }>
-            <Text style={styles.userName}>Nome User Logado</Text>
-            <Text style={styles.userEmail}>Email User Logado</Text>
+            <Text style={styles.userName}>{ user?.nome_completo }</Text>
+            <Text style={styles.userEmail}>{ user?.email }</Text>
             <View style={styles.userScoreContainer}>
               <AntDesign name="star" size={18} color="white" />
               <Text style={styles.userScoreText}>5.0</Text>

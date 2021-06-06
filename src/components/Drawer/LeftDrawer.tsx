@@ -6,7 +6,7 @@ import { StyleSheet, View, Image, Text } from 'react-native';
 import { User } from '../../models/User';
 import { AxiosError, AxiosResponse } from 'axios';
 import { api } from '../../services/api';
-import { API_PERFIL_ENDPOINT } from '../../config/config';
+import { API_PERFIL_ENDPOINT, API_URL } from '../../config/config';
 import { useFocusEffect } from '@react-navigation/core';
 
 const LeftDrawer = (props: DrawerContentComponentProps) => {
@@ -42,11 +42,14 @@ const LeftDrawer = (props: DrawerContentComponentProps) => {
   const activeColor = '#FF5F61';
   const inactiveColor = '#555';
 
+  let gambi = user?.imagemPefil.substring(21);
+  gambi = API_URL + gambi;
+
     return (
       <>
         <View style={styles.profileContainer}>
           <View style={ styles.imageView }>
-            <Image style={ styles.image } source={ user?.imagemPefil ? user.imagemPefil : require('../../../assets/default.png') } />
+            <Image style={ styles.image } source={ user?.imagemPefil ? { uri: gambi } : require('../../../assets/default.png') } />
           </View>
 
           <View style={ styles.profileData }>

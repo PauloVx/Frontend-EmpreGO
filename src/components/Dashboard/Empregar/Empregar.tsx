@@ -6,6 +6,7 @@ import { globalColors } from '../../../globalStyles';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { Entypo } from '@expo/vector-icons';
 import { Job } from '../../../models/Job';
+import { useNavigation } from '@react-navigation/core';
 
 const placeholderData: Array<Job> = [
   { id: 1, author: 'Gabriel Neves', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi egestas consequat justo, in mattis eros feugiat quis. Nullam eu ante accumsan, venenatis ex et, accumsan sem. Nulla eu faucibus leo, eget laoreet sapien. Sed nisi sapien, suscipit eget est rhoncus, pellentesque mollis tellus. Suspendisse facilisis nisi facilisis, sollicitudin dui sed, dignissim erat. Duis elementum turpis ipsum. Suspendisse a sem leo. Nam sed volutpat neque. Proin nec tincidunt dui. Mauris euismod nisi enim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus metus purus, consequat sit amet laoreet vel, viverra eget nunc. Fusce sollicitudin ex nec est faucibus maximus. In maximus pretium dolor, sit amet lobortis nibh laoreet non.' },
@@ -42,6 +43,12 @@ const listItem = (jobs: ListRenderItemInfo<Job>): JSX.Element => {
 }
 
 const Empregar = (): JSX.Element => {
+  const navigation =  useNavigation();
+
+  function navigateToNewJob() {
+    navigation.navigate('NewJob');
+  }
+
   return (
     <LinearGradient colors={[globalColors.startGradientColor, globalColors.endGradientColor ]} style={styles.gradientContainer}>
 
@@ -55,7 +62,7 @@ const Empregar = (): JSX.Element => {
         <TouchableOpacity>
           <View style={styles.shadowBtn}>
             <View style={styles.btnNew}>
-              <Entypo name="plus" size={52} color="#EF7562" />
+              <Entypo name="plus" size={52} color="#EF7562" onPress={ navigateToNewJob }/>
             </View>
           </View>
         </TouchableOpacity>

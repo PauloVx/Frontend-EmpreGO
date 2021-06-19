@@ -14,6 +14,10 @@ const NewJob = (): JSX.Element => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
+  function navigate() {
+    if(title && description) navigation.navigate('NewJobPart2', { title, description });
+  }
+
   return (
     <LinearGradient colors={[globalColors.startGradientColor, globalColors.endGradientColor ]} style={styles.gradientContainer}>
       <View style={styles.titleContainer}>
@@ -23,6 +27,7 @@ const NewJob = (): JSX.Element => {
           placeholderTextColor="#FFF"
           onChangeText={(text: string) => setTitle(text)}
         ></TextInput>
+        <Text style={styles.tipText}>Digite palavras chave (Ex: Pintor, Pedreiro)</Text>
       </View>
 
       <View style={styles.descriptionContainer}>
@@ -41,7 +46,7 @@ const NewJob = (): JSX.Element => {
       </View>
 
       <View style={styles.btnContainer}>
-        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('NewJobPart2')}>
+        <TouchableOpacity style={styles.btn} onPress={ navigate }>
           <Text style={styles.btnText}>Próximo</Text>
         </TouchableOpacity>
       </View>
@@ -71,6 +76,13 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     borderRadius: 100,
     color: '#FFF'
+  },
+  tipText: {
+    color: '#FFF',
+    marginVertical: 5,
+    alignSelf: 'flex-start',
+    marginLeft: 40,
+    fontSize: 10
   },
 
   descriptionContainer: {

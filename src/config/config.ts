@@ -7,5 +7,6 @@ export const API_URL = `http://${API_HOST}:${API_PORT}`
 export const API_CADASTRO_ENDPOINT = `cadastrar`;
 export const API_LOGIN_ENDPOINT = `/login`;
 export const API_PERFIL_ENDPOINT = `/perfil`;
+export const API_CREATE_JOB_ENDPOINT = '/trabalho-adicionar';
 
 //TODO add dotenv

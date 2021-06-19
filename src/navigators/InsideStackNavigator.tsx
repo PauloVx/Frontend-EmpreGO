@@ -7,6 +7,7 @@ import { DefaultHeader } from '../Headers/DefaultHeader/Header';
 import { RightDrawer } from '../components/Drawer/RightDrawer';
 import { NewJob } from '../components/NewJob/NewJob';
 import { NamedHeader } from '../Headers/NamedHeader/NamedHeader';
+import { NewJobPart2 } from '../components/NewJob/NewJobPart2';
 
   const RightDrawerNavigator = () => {
     const Drawer = createDrawerNavigator()
@@ -15,6 +16,7 @@ import { NamedHeader } from '../Headers/NamedHeader/NamedHeader';
         <Drawer.Navigator drawerPosition="right" drawerContent={(props) => <RightDrawer {...props} />} screenOptions={{ headerShown: true, header: (props) => DefaultHeader(props) }} >
             <Drawer.Screen name="Início" component={BottomTabNavigator}></Drawer.Screen>
             <Drawer.Screen name="NewJob" component={NewJob} options={{ header: (props) => NamedHeader(props, "Novo Trabalho") }}></Drawer.Screen>
+            <Drawer.Screen name="NewJobPart2" component={NewJobPart2} options={{ header: (props) => NamedHeader(props, "Novo Trabalho") }}></Drawer.Screen>
         </Drawer.Navigator>
     )
   }

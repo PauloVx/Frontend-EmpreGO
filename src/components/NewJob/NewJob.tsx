@@ -7,6 +7,7 @@ import Textarea from 'react-native-textarea';
 import { globalColors } from '../../globalStyles';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { showMessage } from 'react-native-flash-message';
 
 const NewJob = (): JSX.Element => {
   const navigation = useNavigation();
@@ -16,6 +17,13 @@ const NewJob = (): JSX.Element => {
 
   function navigate() {
     if(title && description) navigation.navigate('NewJobPart2', { title, description });
+    else {
+      showMessage({
+        message: "Preencha todos os campos!",
+        type: "danger",
+        icon: 'danger'
+      });
+    }
   }
 
   return (

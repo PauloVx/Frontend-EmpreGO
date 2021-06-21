@@ -8,5 +8,9 @@ export const API_CADASTRO_ENDPOINT = `cadastrar`;
 export const API_LOGIN_ENDPOINT = `/login`;
 export const API_PERFIL_ENDPOINT = `/perfil`;
 export const API_CREATE_JOB_ENDPOINT = '/trabalho-adicionar';
+export const API_GET_ALL_JOBS = '/trabalhos';
+export const API_GET_JOB_DETAILS = '/trabalho';
+export const API_CANDIDATAR_TRABALHO = '/trabalhos/aceitar';
+export const API_JOBS_I_CREATED = '/perfil/meus-trabalhos-criados';
 
 //TODO add dotenv

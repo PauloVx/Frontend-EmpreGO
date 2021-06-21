@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Text,
   FlatList,
@@ -15,23 +15,40 @@ import { AntDesign } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { globalColors } from '../../../globalStyles';
 import { Job } from '../../../models/Job';
+import { useEffect } from 'react';
+import { api } from '../../../services/api';
+import { API_GET_ALL_JOBS, API_URL } from '../../../config/config';
+import { AppStorage } from '../../../utils/Storage';
+import { useNavigation } from '@react-navigation/native';
 
 export function Trabalhar() {
+  const [jobs, setJobs] = useState<Array<Job>>([]);
+  const navigation = useNavigation();
 
-  const placeholderData: Array<Job> = [
-    { id: 1, author: 'Linovaldo Sebastião', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi egestas consequat justo, in mattis eros feugiat quis. Nullam eu ante accumsan, venenatis ex et, accumsan sem. Nulla eu faucibus leo, eget laoreet sapien. Sed nisi sapien, suscipit eget est rhoncus, pellentesque mollis tellus. Suspendisse facilisis nisi facilisis, sollicitudin dui sed, dignissim erat. Duis elementum turpis ipsum. Suspendisse a sem leo. Nam sed volutpat neque. Proin nec tincidunt dui. Mauris euismod nisi enim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus metus purus, consequat sit amet laoreet vel, viverra eget nunc. Fusce sollicitudin ex nec est faucibus maximus. In maximus pretium dolor, sit amet lobortis nibh laoreet non.' },
-    { id: 2, author: 'Gabriel Neves 2', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi egestas consequat justo, in mattis eros feugiat quis. Nullam eu ante accumsan, venenatis ex et, accumsan sem. Nulla eu faucibus leo, eget laoreet sapien. Sed nisi sapien, suscipit eget est rhoncus, pellentesque mollis tellus. Suspendisse facilisis nisi facilisis, sollicitudin dui sed, dignissim erat. Duis elementum turpis ipsum. Suspendisse a sem leo. Nam sed volutpat neque. Proin nec tincidunt dui. Mauris euismod nisi enim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus metus purus, consequat sit amet laoreet vel, viverra eget nunc. Fusce sollicitudin ex nec est faucibus maximus. In maximus pretium dolor, sit amet lobortis nibh laoreet non.' },
-    { id: 3, author: 'Gabriel Neves 3', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi egestas consequat justo, in mattis eros feugiat quis. Nullam eu ante accumsan, venenatis ex et, accumsan sem. Nulla eu faucibus leo, eget laoreet sapien. Sed nisi sapien, suscipit eget est rhoncus, pellentesque mollis tellus. Suspendisse facilisis nisi facilisis, sollicitudin dui sed, dignissim erat. Duis elementum turpis ipsum. Suspendisse a sem leo. Nam sed volutpat neque. Proin nec tincidunt dui. Mauris euismod nisi enim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus metus purus, consequat sit amet laoreet vel, viverra eget nunc. Fusce sollicitudin ex nec est faucibus maximus. In maximus pretium dolor, sit amet lobortis nibh laoreet non.' },
-    { id: 4, author: 'Gabriel Neves 4', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi egestas consequat justo, in mattis eros feugiat quis. Nullam eu ante accumsan, venenatis ex et, accumsan sem. Nulla eu faucibus leo, eget laoreet sapien. Sed nisi sapien, suscipit eget est rhoncus, pellentesque mollis tellus. Suspendisse facilisis nisi facilisis, sollicitudin dui sed, dignissim erat. Duis elementum turpis ipsum. Suspendisse a sem leo. Nam sed volutpat neque. Proin nec tincidunt dui. Mauris euismod nisi enim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus metus purus, consequat sit amet laoreet vel, viverra eget nunc. Fusce sollicitudin ex nec est faucibus maximus. In maximus pretium dolor, sit amet lobortis nibh laoreet non.' },
-    { id: 5, author: 'Gabriel Neves 5', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi egestas consequat justo, in mattis eros feugiat quis. Nullam eu ante accumsan, venenatis ex et, accumsan sem. Nulla eu faucibus leo, eget laoreet sapien. Sed nisi sapien, suscipit eget est rhoncus, pellentesque mollis tellus. Suspendisse facilisis nisi facilisis, sollicitudin dui sed, dignissim erat. Duis elementum turpis ipsum. Suspendisse a sem leo. Nam sed volutpat neque. Proin nec tincidunt dui. Mauris euismod nisi enim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus metus purus, consequat sit amet laoreet vel, viverra eget nunc. Fusce sollicitudin ex nec est faucibus maximus. In maximus pretium dolor, sit amet lobortis nibh laoreet non.' },
-    { id: 6, author: 'Gabriel Neves 6', content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi egestas consequat justo, in mattis eros feugiat quis. Nullam eu ante accumsan, venenatis ex et, accumsan sem. Nulla eu faucibus leo, eget laoreet sapien. Sed nisi sapien, suscipit eget est rhoncus, pellentesque mollis tellus. Suspendisse facilisis nisi facilisis, sollicitudin dui sed, dignissim erat. Duis elementum turpis ipsum. Suspendisse a sem leo. Nam sed volutpat neque. Proin nec tincidunt dui. Mauris euismod nisi enim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vivamus metus purus, consequat sit amet laoreet vel, viverra eget nunc. Fusce sollicitudin ex nec est faucibus maximus. In maximus pretium dolor, sit amet lobortis nibh laoreet non.' },
-  ]
+  async function fetchJobs() {
+    const jwt = await AppStorage.readData('token_jwt');
 
+    api.get(API_GET_ALL_JOBS, { headers: { 'Authorization': `Bearer ${jwt}`}} ).then((jobs) => {
+      setJobs(jobs.data);
+    })
+  }
+
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+  function redirectToDetail(jobId: number) {
+    navigation.navigate('Detalhes', { jobId });
+  }
 
   const renderItem = (jobs: ListRenderItemInfo<Job>): JSX.Element => {
     const job: Job = jobs.item;
 
-    const formattedContent: string = job.content.substr(0, 200);
+    const formattedContent: string = job.descricao.substr(0, 200);
+
+    let gambi = job.criadorUsuario?.imagemPefil.substring(7);
+    gambi = API_URL + gambi;
 
     return (
       
@@ -40,7 +57,7 @@ export function Trabalhar() {
         <View style={ styles.imageColumn }>
           <TouchableOpacity>
             <View style={ styles.imageView }>
-              <Image style={ styles.image } source={ require('../../../../assets/default.png') }/>
+              <Image style={ styles.image } source={ job.criadorUsuario?.imagemPefil ? { uri: gambi } : require('../../../../assets/default.png')} />
             </View>
           </TouchableOpacity>
         </View>
@@ -48,11 +65,11 @@ export function Trabalhar() {
         <View style={ styles.contentColumn }>
           <View style={ styles.jobHeader }>
             <TouchableOpacity>
-              <Text style={ styles.authorName }>Placeholder {job.author}</Text>
+              <Text style={ styles.authorName }>{job.criadorUsuario.nome_completo}</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity>
-              <Text style={ styles.contentText }>Placeholder { formattedContent }</Text>
+            <TouchableOpacity onPress={ () => redirectToDetail(job.id) }>
+              <Text style={ styles.contentText }>{ formattedContent }</Text>
             </TouchableOpacity>
           </View>
 
@@ -62,7 +79,7 @@ export function Trabalhar() {
 
         <View style={ styles.jobFooter }>
           <View style={ styles.dateView }>
-            <Text style={ styles.dateText }>09:20 - 27/12/2021</Text>
+            <Text style={ styles.dateText }>{ new Date(job.dataCriacao).toLocaleDateString() + ' ' + new Date(job.dataCriacao).toLocaleTimeString() }</Text>
           </View>
 
           <View style={ styles.scoreView }>
@@ -81,7 +98,7 @@ export function Trabalhar() {
   return (
     <LinearGradient colors={[globalColors.startGradientColor, globalColors.endGradientColor ]} style={styles.gradientContainer}>
       <FlatList
-        data={ placeholderData }
+        data={ jobs }
         renderItem={ renderItem }
       />
     </LinearGradient>

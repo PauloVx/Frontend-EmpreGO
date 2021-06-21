@@ -11,6 +11,7 @@ import { api } from "../../services/api";
 import { API_CREATE_JOB_ENDPOINT } from "../../config/config";
 import { useNavigation } from "@react-navigation/native";
 import { AppStorage } from "../../utils/Storage";
+import { showMessage } from "react-native-flash-message";
 
 const NewJobPart2 = ({route}): JSX.Element => {
   const navigation = useNavigation();
@@ -33,6 +34,15 @@ const NewJobPart2 = ({route}): JSX.Element => {
       cidade,
       bairro,
       logradouro
+    }
+
+    if(!title || !cep || !uf || !cidade || !bairro || !logradouro) {
+      showMessage({
+        message: "Preencha todos os campos!",
+        type: "danger",
+        icon: 'danger'
+      });
+      return;
     }
 
     const jwt = await AppStorage.readData('token_jwt');

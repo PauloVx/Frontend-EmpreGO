@@ -9,6 +9,7 @@ import { NewJob } from '../components/NewJob/NewJob';
 import { NamedHeader } from '../Headers/NamedHeader/NamedHeader';
 import { NewJobPart2 } from '../components/NewJob/NewJobPart2';
 import { Detalhes } from '../components/Detalhes/Detalhes';
+import { Candidaturas } from '../components/Candidaturas/Candidaturas';
 
   const RightDrawerNavigator = () => {
     const Drawer = createDrawerNavigator()
@@ -19,6 +20,7 @@ import { Detalhes } from '../components/Detalhes/Detalhes';
             <Drawer.Screen name="Detalhes" component={Detalhes} options={{ header: (props) => NamedHeader(props, 'Detalhes') }}></Drawer.Screen>
             <Drawer.Screen name="NewJob" component={NewJob} options={{ header: (props) => NamedHeader(props, "Novo Trabalho") }}></Drawer.Screen>
             <Drawer.Screen name="NewJobPart2" component={NewJobPart2} options={{ header: (props) => NamedHeader(props, "Novo Trabalho") }}></Drawer.Screen>
+            <Drawer.Screen name="Candidaturas" component={Candidaturas} options={{ header: (props) => NamedHeader(props, "Minhas Candidaturas") }}></Drawer.Screen>
         </Drawer.Navigator>
     )
   }

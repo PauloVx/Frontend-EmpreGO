@@ -12,5 +12,6 @@ export const API_GET_ALL_JOBS = '/trabalhos';
 export const API_GET_JOB_DETAILS = '/trabalho';
 export const API_CANDIDATAR_TRABALHO = '/trabalhos/aceitar';
 export const API_JOBS_I_CREATED = '/perfil/meus-trabalhos-criados';
+export const API_MINHAS_CANDIDATURAS = '/perfil/meus-trabalhos';
 
 //TODO add dotenv

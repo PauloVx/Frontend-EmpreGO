@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import {
   Text,
-  Image,
   View,
   KeyboardAvoidingView,
   TouchableOpacity,
   TextInput,
+  ActivityIndicator
 } from 'react-native';
+
+import { Image } from 'react-native-elements'
 
 import { useNavigation } from '@react-navigation/native';
 

@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import { api } from '../../../services/api';
 import { API_JOBS_I_CREATED } from '../../../config/config';
 import { AppStorage } from '../../../utils/Storage';
-
+import { Icon } from 'react-native-elements'
 
 const listItem = (jobs: ListRenderItemInfo<Job>): JSX.Element => {
   const job: Job = jobs.item;
@@ -68,7 +68,7 @@ const Empregar = (): JSX.Element => {
         <TouchableOpacity>
           <View style={styles.shadowBtn}>
             <View style={styles.btnNew}>
-              <Entypo name="plus" size={52} color="#EF7562" onPress={ navigateToNewJob }/>
+              <Icon type="entypo" name="plus" raised size={25} color="#EF7562" onPress={ navigateToNewJob }/>
             </View>
           </View>
         </TouchableOpacity>
@@ -89,17 +89,17 @@ const styles = StyleSheet.create({
   },
 
   btnNew: {
-    backgroundColor: '#FFF',
+    // backgroundColor: '#FFF',
     borderRadius: 500,
 
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
 
-    height: 60,
-    width: 60,
+    height: 70,
+    width: 70,
 
-    borderColor: '#EF7562',
-    borderWidth: 1
+    // borderColor: '#EF7562',
+    // borderWidth: 1
   },
 
   btnContainer: {

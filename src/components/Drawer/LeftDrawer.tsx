@@ -59,21 +59,21 @@ const LeftDrawer = (props: DrawerContentComponentProps) => {
           <View style={ styles.profileData }>
             <Text style={styles.userName}>{ user?.nome_completo }</Text>
             <Text style={styles.userEmail}>{ user?.email }</Text>
-            <View style={styles.userScoreContainer}>
+            {/* <View style={styles.userScoreContainer}>
               <AntDesign name="star" size={18} color="white" />
               <Text style={styles.userScoreText}>5.0</Text>
-            </View>
+            </View> */}
           </View>
         </View>
 
         <DrawerContentScrollView {...props} contentContainerStyle={ styles.container }>
           <View style={styles.topBtn}>
             <DrawerItem labelStyle={{ color: activeColor }} label="Perfil"              onPress={() => {}} icon={() => <FontAwesome5 name="user"                     size={iconSize} color={activeColor} />} />
-            <DrawerItem labelStyle={{ color: activeColor }} label="Mensagens"           onPress={() => {}} icon={() => <Ionicons     name="mail-outline"             size={iconSize} color={activeColor} />} />
+            {/* <DrawerItem labelStyle={{ color: activeColor }} label="Mensagens"           onPress={() => {}} icon={() => <Ionicons     name="mail-outline"             size={iconSize} color={activeColor} />} /> */}
             <DrawerItem labelStyle={{ color: activeColor }} label="Minhas Candidaturas" onPress={redirectToMinhasCandidaturas} icon={() => <Ionicons     name="checkmark-circle-outline" size={iconSize} color={activeColor} />} />
-            <DrawerItem labelStyle={{ color: activeColor }} label="Configurações"       onPress={() => {}} icon={() => <Feather      name="settings"                 size={iconSize} color={activeColor} />} />
-            <DrawerItem labelStyle={{ color: activeColor }} label="Suporte"             onPress={() => {}} icon={() => <Entypo       name="lifebuoy"                 size={iconSize} color={activeColor} />} />
-            <DrawerItem labelStyle={{ color: activeColor }} label="FAQ"                 onPress={() => {}} icon={() => <AntDesign    name="questioncircleo"          size={iconSize} color={activeColor} />} />
+            {/* <DrawerItem labelStyle={{ color: activeColor }} label="Configurações"       onPress={() => {}} icon={() => <Feather      name="settings"                 size={iconSize} color={activeColor} />} /> */}
+            {/* <DrawerItem labelStyle={{ color: activeColor }} label="Suporte"             onPress={() => {}} icon={() => <Entypo       name="lifebuoy"                 size={iconSize} color={activeColor} />} /> */}
+            {/* <DrawerItem labelStyle={{ color: activeColor }} label="FAQ"                 onPress={() => {}} icon={() => <AntDesign    name="questioncircleo"          size={iconSize} color={activeColor} />} /> */}
           </View>
 
           <View style={styles.bottomBtn}>

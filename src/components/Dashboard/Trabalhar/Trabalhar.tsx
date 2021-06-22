@@ -7,7 +7,8 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  RefreshControl
+  RefreshControl,
+  ActivityIndicator
 } from 'react-native';
 
 import { ListItem } from 'react-native-elements';
@@ -75,7 +76,7 @@ export function Trabalhar() {
         ViewComponent={LinearGradient}
         onPress={() => {redirectToDetail(job.id)}}
       >
-        <Avatar rounded source={{ uri: gambi }} size={50}/>
+        <Avatar rounded source={{ uri: gambi }} size={50} renderPlaceholderContent={<ActivityIndicator />}/>
         <ListItem.Content>
           <ListItem.Title style={{color: '#FFF', fontWeight: 'bold'}} >{job.criadorUsuario.nome_completo}</ListItem.Title>
           <ListItem.Subtitle  style={{color: '#FFF', fontWeight: '100'}}>{job.titulo}</ListItem.Subtitle>

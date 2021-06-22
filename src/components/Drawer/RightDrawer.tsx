@@ -5,6 +5,7 @@ import { FlatList, TextInput, TouchableOpacity } from 'react-native-gesture-hand
 import { Foundation } from '@expo/vector-icons';
 import { AppStorage } from '../../utils/Storage';
 import { MaterialIcons } from '@expo/vector-icons';
+import { SearchBar } from 'react-native-elements/dist/searchbar/SearchBar';
 
 const renderItem = (oldSearchs: ListRenderItemInfo<string>): JSX.Element => {
     const item: string = oldSearchs.item;
@@ -63,7 +64,7 @@ const RightDrawer = (props: DrawerContentComponentProps): JSX.Element => {
                         onChangeText={(text: string) => { setSearchParam(text) }}
                     ></TextInput>
 
-                    <TouchableOpacity onPress={ search }>
+                    <TouchableOpacity onPress={ search } disabled>
                         <Foundation name="magnifying-glass" size={22} color="#FF5F61" />
                     </TouchableOpacity>
                 </View>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Text,
   FlatList,
@@ -6,8 +6,11 @@ import {
   ListRenderItemInfo,
   StyleSheet,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  RefreshControl
 } from 'react-native';
+
+import { ListItem } from 'react-native-elements';
 
 import MapView from 'react-native-maps';
 
@@ -15,22 +18,33 @@ import { AntDesign } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { globalColors } from '../../../globalStyles';
 import { Job } from '../../../models/Job';
-import { useEffect } from 'react';
 import { api } from '../../../services/api';
 import { API_GET_ALL_JOBS, API_URL } from '../../../config/config';
 import { AppStorage } from '../../../utils/Storage';
 import { useNavigation } from '@react-navigation/native';
+import { Avatar } from 'react-native-elements/dist/avatar/Avatar';
 
 export function Trabalhar() {
   const [jobs, setJobs] = useState<Array<Job>>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+
   const navigation = useNavigation();
 
   async function fetchJobs() {
+    setLoading(true);
     const jwt = await AppStorage.readData('token_jwt');
 
-    api.get(API_GET_ALL_JOBS, { headers: { 'Authorization': `Bearer ${jwt}`}} ).then((jobs) => {
-      setJobs(jobs.data);
+    api.get(API_GET_ALL_JOBS, { headers: { 'Authorization': `Bearer ${jwt}`}} )
+    .then((jobs) => {
+      setJobs(jobs.data.reverse());
+      setLoading(false);
     })
+    .catch((err) => {
+      setLoading(false);
+      setError(err);
+    });
   }
 
 
@@ -42,8 +56,8 @@ export function Trabalhar() {
     navigation.navigate('Detalhes', { jobId });
   }
 
-  const renderItem = (jobs: ListRenderItemInfo<Job>): JSX.Element => {
-    const job: Job = jobs.item;
+  const renderItem = ({item}): JSX.Element => {
+    const job: Job = item;
 
     const formattedContent: string = job.descricao.substr(0, 200);
 
@@ -51,67 +65,37 @@ export function Trabalhar() {
     gambi = API_URL + gambi;
 
     return (
-      
-      <View style={ styles.job }>
-
-        <View style={ styles.imageColumn }>
-          <TouchableOpacity>
-            <View style={ styles.imageView }>
-              <Image style={ styles.image } source={ job.criadorUsuario?.imagemPefil ? { uri: gambi } : require('../../../../assets/default.png')} />
-            </View>
-          </TouchableOpacity>
-        </View>
-
-        <View style={ styles.contentColumn }>
-          <View style={ styles.jobHeader }>
-            <TouchableOpacity>
-              <Text style={ styles.authorName }>{job.criadorUsuario.nome_completo}</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={ () => redirectToDetail(job.id) }>
-              <Text style={ styles.contentText }>{ formattedContent }</Text>
-            </TouchableOpacity>
-          </View>
-
-        <View style={ styles.mapView }>
-          <MapView style={ styles.map} />
-        </View>
-
-        <View style={ styles.jobFooter }>
-          <View style={ styles.dateView }>
-            <Text style={ styles.dateText }>{ new Date(job.dataCriacao).toLocaleDateString() + ' ' + new Date(job.dataCriacao).toLocaleTimeString() }</Text>
-          </View>
-
-          <View style={ styles.scoreView }>
-            <AntDesign name="star" size={15} color="white" />
-            <Text style={ styles.scoreText }>4.8 / 5.0</Text>
-          </View>
-        </View>
-
-        </View>
-
-      </View>
-      
+      <ListItem
+        bottomDivider
+        linearGradientProps={{
+          colors: [globalColors.startGradientColor, globalColors.endGradientColor],
+          start: { x: 1, y: 0 },
+          end: { x: 0.2, y: 5 },
+        }}
+        ViewComponent={LinearGradient}
+        onPress={() => {redirectToDetail(job.id)}}
+      >
+        <Avatar rounded source={{ uri: gambi }} size={50}/>
+        <ListItem.Content>
+          <ListItem.Title style={{color: '#FFF', fontWeight: 'bold'}} >{job.criadorUsuario.nome_completo}</ListItem.Title>
+          <ListItem.Subtitle  style={{color: '#FFF', fontWeight: '100'}}>{job.titulo}</ListItem.Subtitle>
+          <ListItem.Subtitle  style={{color: '#FFF', fontWeight: '100', fontSize: 10}}>{job.descricao.substr(0, 40) + '...'}</ListItem.Subtitle>
+        </ListItem.Content>
+        <ListItem.Chevron color="#FFF" size={25}/>
+      </ListItem>
     )
   };
 
   return (
-    <LinearGradient colors={[globalColors.startGradientColor, globalColors.endGradientColor ]} style={styles.gradientContainer}>
       <FlatList
         data={ jobs }
         renderItem={ renderItem }
+        refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={fetchJobs} /> }
       />
-    </LinearGradient>
   )
 }
 
 const styles = StyleSheet.create({
-  gradientContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-
   job: {
 
     height: 300,

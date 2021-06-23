@@ -40,7 +40,8 @@ const NewJobPart2 = ({route}): JSX.Element => {
       showMessage({
         message: "Preencha todos os campos!",
         type: "danger",
-        icon: 'danger'
+        icon: 'danger',
+        style: { borderBottomRightRadius: 15, borderBottomLeftRadius: 15 }
       });
       return;
     }

@@ -6,7 +6,7 @@ import { StyleSheet, View, Image, Text } from 'react-native';
 import { User } from '../../models/User';
 import { AxiosError, AxiosResponse } from 'axios';
 import { api } from '../../services/api';
-import { API_PERFIL_ENDPOINT, API_URL } from '../../config/config';
+import { API_PERFIL_ENDPOINT, API_URL, APPLICATION_VERSION } from '../../config/config';
 import { useFocusEffect } from '@react-navigation/core';
 
 const LeftDrawer = (props: DrawerContentComponentProps) => {
@@ -17,8 +17,12 @@ const LeftDrawer = (props: DrawerContentComponentProps) => {
     props.navigation.navigate('Login');
   }
 
-  function redirectToMinhasCandidaturas() {
+  const redirectToMinhasCandidaturas = () => {
     props.navigation.navigate('Candidaturas');
+  }
+
+  const redirectToPerfil = () => {
+    props.navigation.navigate('Perfil');
   }
 
   async function getUserData() {
@@ -68,7 +72,7 @@ const LeftDrawer = (props: DrawerContentComponentProps) => {
 
         <DrawerContentScrollView {...props} contentContainerStyle={ styles.container }>
           <View style={styles.topBtn}>
-            <DrawerItem labelStyle={{ color: activeColor }} label="Perfil"              onPress={() => {}} icon={() => <FontAwesome5 name="user"                     size={iconSize} color={activeColor} />} />
+            <DrawerItem labelStyle={{ color: activeColor }} label="Meu Perfil"              onPress={redirectToPerfil} icon={() => <FontAwesome5 name="user"                     size={iconSize} color={activeColor} />} />
             {/* <DrawerItem labelStyle={{ color: activeColor }} label="Mensagens"           onPress={() => {}} icon={() => <Ionicons     name="mail-outline"             size={iconSize} color={activeColor} />} /> */}
             <DrawerItem labelStyle={{ color: activeColor }} label="Minhas Candidaturas" onPress={redirectToMinhasCandidaturas} icon={() => <Ionicons     name="checkmark-circle-outline" size={iconSize} color={activeColor} />} />
             {/* <DrawerItem labelStyle={{ color: activeColor }} label="Configurações"       onPress={() => {}} icon={() => <Feather      name="settings"                 size={iconSize} color={activeColor} />} /> */}
@@ -80,6 +84,7 @@ const LeftDrawer = (props: DrawerContentComponentProps) => {
             <DrawerItem labelStyle={{ color: activeColor }} label="Sair" onPress={logout} icon={() => <SimpleLineIcons name="logout" size={iconSize} color={activeColor} />} />
           </View>
         </DrawerContentScrollView>
+        <Text style={{ color: '#AAA', fontSize: 9, margin: 10 }}>EmpreGO Versão: {APPLICATION_VERSION}</Text>
       </>
     );
   }

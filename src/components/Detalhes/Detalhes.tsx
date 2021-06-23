@@ -44,6 +44,21 @@ const Detalhes = ({route}): JSX.Element => {
 }
 
 const LoadedView = ({trabalho, jobId}: {trabalho: Job, jobId: number}): JSX.Element => {
+    const fakeCoords: Array<{latitude: number, longitude: number}> = [
+        { latitude: -22.1183168, longitude: -41.611518 },
+        { latitude: -16.8345499, longitude: -49.2493613 },
+        { latitude: -22.8509198, longitude: -43.2663982 },
+        { latitude: -22.8541405, longitude: -43.2662192 },
+        { latitude: -22.8534758, longitude: -43.2714456 },
+        { latitude: -22.8509198, longitude: -43.2663982 },
+        { latitude: -22.8134112, longitude: -43.3092641 },
+        { latitude: -22.8509198, longitude: -43.2663982 },
+        { latitude: -22.8437505, longitude: -43.2632509 },
+        { latitude: -22.8533709, longitude: -43.2469424 },
+        { latitude: -22.8669984, longitude: -43.2541663 },
+    ];
+
+
     const navigation = useNavigation();
     async function candidatar() {
         const jwt = await AppStorage.readData('token_jwt');
@@ -96,7 +111,7 @@ const LoadedView = ({trabalho, jobId}: {trabalho: Job, jobId: number}): JSX.Elem
         <LinearGradient colors={[globalColors.startGradientColor, globalColors.endGradientColor ]} style={styles.gradientContainer}>
 
             <View style={ styles.mapView }>
-                <MapView style={ styles.map} initialRegion={ { latitude: Math.random() * 10, longitude: Math.random() * 10, latitudeDelta: 10, longitudeDelta: 10 } }/>
+                <MapView style={ styles.map} initialRegion={ { latitude: fakeCoords[Math.floor(Math.random() * fakeCoords.length)].latitude, longitude: fakeCoords[Math.floor(Math.random() * fakeCoords.length)].longitude, latitudeDelta: 0.002, longitudeDelta: 0.002 } }/> 
             </View>
 
             <View style={styles.contentView}>

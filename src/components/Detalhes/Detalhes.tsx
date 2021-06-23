@@ -11,9 +11,12 @@ import { AppStorage } from "../../utils/Storage";
 import { useNavigation } from "@react-navigation/native";
 import { showMessage } from "react-native-flash-message";
 import { AxiosResponse } from "axios";
+import { ActivityIndicator } from "react-native-paper";
+import { Avatar } from 'react-native-elements';
+import { Divider } from 'react-native-elements';
+import MapView from 'react-native-maps';
 
 const Detalhes = ({route}): JSX.Element => {
-    const navigation = useNavigation();
     const {jobId} = route.params;
     const [loading, setLoading] = useState<boolean>(true);
     const [img, setImg] = useState<string>('');
@@ -21,6 +24,7 @@ const Detalhes = ({route}): JSX.Element => {
     const [trabalho, setTrabalho] = useState<Job>();
 
     async function fetchTrabalho() {
+        setLoading(true);
         const jwt = await AppStorage.readData('token_jwt');
 
         await api.get(`${API_GET_JOB_DETAILS}/${jobId}`, { headers: { 'Authorization': `Bearer ${jwt}`}} ).then((job) => {
@@ -32,6 +36,15 @@ const Detalhes = ({route}): JSX.Element => {
         });
     }
 
+    useEffect(() => {
+        fetchTrabalho();
+    }, [jobId])
+
+    return ( (loading) ? <ActivityIndicator size={50} color={globalColors.startGradientColor} style={{ marginTop: 270 }}/> : <LoadedView trabalho={ trabalho }  jobId={ jobId }/> )
+}
+
+const LoadedView = ({trabalho, jobId}: {trabalho: Job, jobId: number}): JSX.Element => {
+    const navigation = useNavigation();
     async function candidatar() {
         const jwt = await AppStorage.readData('token_jwt');
 
@@ -39,14 +52,14 @@ const Detalhes = ({route}): JSX.Element => {
             const responseData: AxiosResponse<any> = await api.get(API_PERFIL_ENDPOINT, { headers: { Authorization: 'bearer ' + jwt } });
             const { user } = await responseData.data;
 
-            console.log("ID " + user.id)
-            console.log("JOBID " + jobId)
+
             if(trabalho.criadorUsuario.id === user.id) {
                 showMessage({
                     message: "Você não pode se candidatar à um trabalho criado por você mesmo!",
                     description: `Título: ${trabalho.titulo}`,
                     type: "danger",
-                    icon: 'danger'
+                    icon: 'danger',
+                    style: { borderBottomRightRadius: 15, borderBottomLeftRadius: 15 }
                 });
                 navigation.goBack();
                 return;
@@ -62,7 +75,8 @@ const Detalhes = ({route}): JSX.Element => {
                 message: "Você se candidatou com sucesso!",
                 description: `${trabalho.titulo}`,
                 type: "success",
-                icon: 'success'
+                icon: 'success',
+                style: { borderBottomRightRadius: 15, borderBottomLeftRadius: 15 }
             });
             navigation.goBack();
         }
@@ -71,57 +85,59 @@ const Detalhes = ({route}): JSX.Element => {
                 message: "Alguem Já se candidatou a ese trabalho, ou ele não existe mais!",
                 description: `Título: ${trabalho.titulo}`,
                 type: "danger",
-                icon: 'danger'
+                icon: 'danger',
+                style: { borderBottomRightRadius: 15, borderBottomLeftRadius: 15 }
             });
             navigation.goBack();
         }
     }
 
-    useEffect(() => {
-        fetchTrabalho();
-    }, [jobId])
-
     return (
         <LinearGradient colors={[globalColors.startGradientColor, globalColors.endGradientColor ]} style={styles.gradientContainer}>
 
+            <View style={ styles.mapView }>
+                <MapView style={ styles.map} initialRegion={ { latitude: Math.random() * 10, longitude: Math.random() * 10, latitudeDelta: 10, longitudeDelta: 10 } }/>
+            </View>
 
-        <View style={styles.firstLine}>
+            <View style={styles.contentView}>
+                <View>
+                    <View>
+                        <Text style={[styles.textDestaque, styles.titulo]}>{ trabalho.titulo }</Text>
+                        <Text style={[styles.textDescricao]}>{ trabalho.descricao }</Text>
+                    </View>
 
-            <View style={styles.imageColumn}>
-                <View style={styles.imageView}>
-                    {(loading) ? null : <Image style={styles.image} source={require('../../../assets/default.png')}/>}
+                    <View>
+                        <Text style={[styles.textDestaque, styles.txtSubtitle]}>Endereço</Text>
+                        <Text style={styles.txtEndereco}>{ trabalho.logradouro }</Text>
+                        <Text style={styles.txtEndereco}>{ trabalho.bairro }</Text>
+                        <Text style={styles.txtEndereco}>CEP { trabalho.cep }</Text>
+                        <Text style={styles.txtEndereco}>{ `${trabalho.cidade} - ${trabalho.uf}` }</Text>
+                    </View>
+                </View>
+
+                <View style={styles.creatorCard}>
+                    <Avatar
+                        rounded
+                        size={55}
+                        source={{
+                            uri: `${API_URL}/${trabalho.criadorUsuario.imagemPefil.substring(8)}`,
+                        }}
+                    />
+
+                    <View style={{ marginLeft: 15 }}>
+                        <Text style={{ color: globalColors.startGradientColor, fontSize: 9, marginBottom: 5 }}>Criado por</Text>
+                        <Text style={{ color: globalColors.endGradientColor, fontWeight: 'bold', fontSize: 15 }}>{ trabalho.criadorUsuario.nome_completo }</Text>
+                        <Text style={{ color: globalColors.startGradientColor, fontSize: 10, marginTop: 2 }}>{ trabalho.criadorUsuario.email }</Text>
+                    </View>
                 </View>
             </View>
 
-            <View style={styles.titleContainer}>
-                <Text style={{ color: '#FFF', fontWeight: 'bold', fontSize: 16 }}>{(loading) ? 'Carregando...' : trabalho.criadorUsuario?.nome_completo}</Text>
-                <Text style={{ color: '#FFF', fontSize: 11 }}>{(loading) ? 'Carregando...' : trabalho.titulo}</Text>
+            
+            <View style={styles.btnContainer}>
+                <TouchableOpacity style={styles.btn} onPress={candidatar}>
+                    <Text style={{ color: globalColors.endGradientColor, fontWeight: 'bold' }}>Candidatar-se</Text>
+                </TouchableOpacity>
             </View>
-
-        </View>
-
-        <View style={styles.descricaoContainer}>
-            <Text style={{ color: '#FFF' }}>{(loading) ? 'Carregando...' : trabalho.descricao}</Text>
-
-            <View>
-                <Text style={ {color: '#FFF'} }>{(loading) ? 'Carregando...' : new Date(trabalho.dataCriacao).toLocaleTimeString() + ' - ' + new Date(trabalho.dataCriacao).toLocaleDateString() }</Text>
-            </View>
-        </View>
-
-        <View style={styles.localizacaoContainer}>
-            <View style={styles.outline}>
-                <Text style={styles.localizacaoText}>CEP: {(loading) ? 'Carregando...' : trabalho.cep}</Text>
-                <Text style={styles.localizacaoText}>Cidade: {(loading) ? 'Carregando...' : trabalho.cidade + trabalho.uf}</Text>
-                <Text style={styles.localizacaoText}>Bairro: {(loading) ? 'Carregando...' : trabalho.bairro}</Text>
-                <Text style={styles.localizacaoText}>Logradouro: {(loading) ? 'Carregando...' : trabalho.logradouro}</Text>
-            </View>
-        </View>
-
-        <View style={styles.btnContainer}>
-            <TouchableOpacity style={styles.btn} onPress={candidatar}>
-                <Text style={{ color: globalColors.endGradientColor, fontWeight: 'bold' }}>Candidatar-se</Text>
-            </TouchableOpacity>
-        </View>
 
         </LinearGradient>
     )
@@ -134,64 +150,22 @@ const styles = StyleSheet.create({
         alignItems: 'center'
       },
 
-      firstLine: {
-          flexDirection: 'row',
-          width: '100%',
-          height: '13%',
-          paddingHorizontal: 15,
-      },
-
-      imageColumn: {
-        width: '25%',
-        height: '100%',
-        borderRadius: 50,
-        alignItems: 'center',
-        justifyContent: 'center'
-      },
-      imageView: {
-        width: '100%',
-        height: '95%',
+      mapView: {
+        height: '30%',
+        borderRadius: 5,
         overflow: 'hidden',
-        borderRadius: 50,
-        justifyContent: 'center',
-        alignItems: 'center'
+        width: '90%'
       },
-      image: {
-        width: 100,
-        height: 100
-      },
-
-      titleContainer: {
-          padding: 15,
-          justifyContent: 'center'
-      },
-
-      descricaoContainer: {
-        padding: 15,
-        height: '25%',
+      map: {
         width: '100%',
-
-        justifyContent: 'space-evenly',
-
-      },
-
-      localizacaoContainer: {
-          padding: 20,
-          width: '100%',
-          height: '30%',
-      },
-      outline: {
-        padding: 25,
-        borderColor: '#fff',
-        borderWidth: 2,
-        borderRadius: 40,
         height: '100%',
-        justifyContent: 'space-evenly'
       },
-      localizacaoText: {
-          fontWeight: 'bold',
-          color: '#FFF',
-          fontSize: 15
+
+      contentView: {
+        height: '50%',
+        width: '100%',
+        padding: 23,
+        justifyContent: 'space-around',
       },
 
       btnContainer: {
@@ -208,8 +182,101 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '50%',
         borderRadius: 50
+      },
+
+      titulo: {
+        fontSize: 25,
+        marginBottom: 5
+      },
+
+      txtSubtitle: {
+        marginBottom: 5
+      },
+
+      textDestaque: {
+          fontWeight: 'bold',
+          color: '#FFF'
+      },
+
+      textDescricao: {
+        marginBottom: 20,
+        color: '#DDD'
+      },
+
+      txtEndereco: {
+          color: '#DDD',
+          fontSize: 10
+      },
+
+      creatorCard: {
+          flexDirection: 'row',
+          backgroundColor: '#FFF',
+          width: '100%',
+          height: '25%',
+          borderRadius: 5,
+          alignItems: 'center',
+          paddingHorizontal: 15
       }
-    
+
+    //   firstLine: {
+    //       flexDirection: 'row',
+    //       width: '100%',
+    //       height: '13%',
+    //       paddingHorizontal: 15,
+    //   },
+
+    //   imageColumn: {
+    //     width: '25%',
+    //     height: '100%',
+    //     borderRadius: 50,
+    //     alignItems: 'center',
+    //     justifyContent: 'center'
+    //   },
+    //   imageView: {
+    //     width: '100%',
+    //     height: '95%',
+    //     overflow: 'hidden',
+    //     borderRadius: 50,
+    //     justifyContent: 'center',
+    //     alignItems: 'center'
+    //   },
+    //   image: {
+    //     width: 100,
+    //     height: 100
+    //   },
+
+    //   titleContainer: {
+    //       padding: 15,
+    //       justifyContent: 'center'
+    //   },
+
+    //   descricaoContainer: {
+    //     padding: 15,
+    //     height: '25%',
+    //     width: '100%',
+
+    //     justifyContent: 'space-evenly',
+
+    //   },
+
+    //   localizacaoContainer: {
+    //       padding: 20,
+    //       width: '100%',
+    //       height: '30%',
+    //   },
+    //   outline: {
+    //     padding: 25,
+    //     borderColor: '#fff',
+    //     borderWidth: 2,
+    //     borderRadius: 40,
+    //     height: '100%',
+    //     justifyContent: 'space-evenly'
+    //   },
+    //   localizacaoText: {
+    //       fontWeight: 'bold',
+    //       color: '#FFF',
+    //       fontSize: 15
+    //   },
 })
 
 export { Detalhes };

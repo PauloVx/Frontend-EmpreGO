@@ -88,6 +88,7 @@ export function Trabalhar() {
   };
 
   return (
+    (loading && !refreshing) ? <ActivityIndicator size={50} color={globalColors.startGradientColor} style={{ marginTop: 270 }}/> :
       <FlatList
         data={ jobs }
         renderItem={ renderItem }

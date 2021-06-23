@@ -48,6 +48,13 @@ const NewJobPart2 = ({route}): JSX.Element => {
     const jwt = await AppStorage.readData('token_jwt');
 
     await api.post(API_CREATE_JOB_ENDPOINT, job, { headers: { 'Authorization': `Bearer ${jwt}`} }).then(() => {
+      showMessage({
+        message: "Trabalho Cadastrado Com Sucesso!",
+        description: `${title}`,
+        type: "success",
+        icon: 'success',
+        style: { borderBottomRightRadius: 15, borderBottomLeftRadius: 15 }
+    });
       navigation.navigate('Início');
     });
   }

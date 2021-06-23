@@ -34,6 +34,7 @@ const NewJob = (): JSX.Element => {
           style={styles.titleInput}
           placeholderTextColor="#FFF"
           onChangeText={(text: string) => setTitle(text)}
+          maxLength={255}
         ></TextInput>
         <Text style={styles.tipText}>Digite palavras chave (Ex: Pintor, Pedreiro)</Text>
       </View>
@@ -44,13 +45,14 @@ const NewJob = (): JSX.Element => {
             style={styles.textArea}
             containerStyle={styles.textareaContainer}
             underlineColorAndroid="transparent"
-            placeholder="Descrição"
+            placeholder="Descrição e contato"
             placeholderTextColor="#FFF"
             numberOfLines={10}
             multiline={true}
-            onChangeText={(text: string) => setDescription(text)}
+            value={description}
+            
+            onChangeText={(text) => { (description.length <= 254) ? setDescription(text)  : {} }}
           />
-
       </View>
 
       <View style={styles.btnContainer}>

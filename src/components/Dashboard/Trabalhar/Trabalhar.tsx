@@ -93,6 +93,7 @@ export function Trabalhar() {
         data={ jobs }
         renderItem={ renderItem }
         refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={fetchJobs} /> }
+        keyExtractor={(job: Job, index: number) => job.id.toString() }
       />
   )
 }

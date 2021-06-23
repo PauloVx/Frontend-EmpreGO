@@ -62,6 +62,7 @@ const Empregar = (): JSX.Element => {
         data={ jobs }
         renderItem={ listItem }
         style={styles.flatList}
+        keyExtractor={(job: Job, index: number) => job.id.toString() }
       />
 
       <View style={styles.btnContainer}>

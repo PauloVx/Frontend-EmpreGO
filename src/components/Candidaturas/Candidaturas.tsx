@@ -57,6 +57,7 @@ const Candidaturas = (): JSX.Element => {
         data={ jobs }
         renderItem={ listItem }
         style={styles.flatList}
+        keyExtractor={(job: Job, index: number) => job.id.toString() }
       />
 
     </LinearGradient>

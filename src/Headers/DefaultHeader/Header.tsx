@@ -32,7 +32,7 @@ const DefaultHeader = (props: any) => {
 
           <TouchableOpacity>
             <View>
-              <Entypo onPress={ openRightDrawer } name="magnifying-glass" size={28} color={globalColors.startGradientColor} />
+              {/* <Entypo onPress={ openRightDrawer } name="magnifying-glass" size={28} color={globalColors.startGradientColor} /> */}
             </View>
           </TouchableOpacity>
         </View>

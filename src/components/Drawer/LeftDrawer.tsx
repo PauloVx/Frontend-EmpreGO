@@ -22,7 +22,7 @@ const LeftDrawer = (props: DrawerContentComponentProps) => {
   }
 
   const redirectToPerfil = () => {
-    props.navigation.navigate('Perfil');
+    props.navigation.navigate('Perfil', { user });
   }
 
   async function getUserData() {

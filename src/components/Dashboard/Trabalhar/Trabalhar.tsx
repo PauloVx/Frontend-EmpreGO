@@ -60,8 +60,6 @@ export function Trabalhar() {
   const renderItem = ({item}): JSX.Element => {
     const job: Job = item;
 
-    const formattedContent: string = job.descricao.substr(0, 200);
-
     let gambi = job.criadorUsuario?.imagemPefil.substring(7);
     gambi = API_URL + gambi;
 
@@ -97,93 +95,3 @@ export function Trabalhar() {
       />
   )
 }
-
-const styles = StyleSheet.create({
-  job: {
-
-    height: 300,
-    flexDirection: 'row',
-    paddingHorizontal: 10,
-    marginVertical: 10
-  },
-
-  imageColumn: {
-
-    width: '17%',
-    paddingRight: 5
-  },
-
-  contentColumn: {
-
-    width: '83%'
-  },
-
-  jobHeader: {
-    overflow: 'hidden',
-    height: '28%'
-  },
-
-  authorName: {
-    color: '#FFF',
-    fontWeight: 'bold',
-    fontSize: 18,
-    marginBottom: 5
-  },
-
-  contentText: {
-    color: '#FFF',
-  },
-
-  imageView: {
-    width: '100%',
-    height: '45%',
-    overflow: 'hidden',
-    borderRadius: 50
-  },
-  image: {
-    width: '100%',
-    height: '100%'
-  },
-
-  mapView: {
-    height: '64%',
-    borderRadius: 15,
-    overflow: 'hidden',
-    width: '95%'
-  },
-  map: {
-    width: '100%',
-    height: '100%',
-  },
-
-  jobFooter: {
-
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingRight: 15,
-
-    height: '8%',
-  },
-
-  dateView: {
-    width: '76%',
-
-  },
-  dateText: {
-    color: '#FFF'
-  },
-
-  scoreView: {
-    flexDirection: 'row',
-    width: '24%',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-
-  },
-  scoreText: {
-    color: '#FFF',
-    fontWeight: 'bold'
-  },
-});

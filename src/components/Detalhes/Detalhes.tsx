@@ -39,6 +39,7 @@ const Detalhes = ({route}): JSX.Element => {
     useEffect(() => {
         fetchTrabalho();
     }, [jobId])
+    
 
     return ( (loading) ? <ActivityIndicator size={50} color={globalColors.startGradientColor} style={{ marginTop: 270 }}/> : <LoadedView trabalho={ trabalho }  jobId={ jobId }/> )
 }
@@ -215,11 +216,11 @@ const styles = StyleSheet.create({
 
       textDescricao: {
         marginBottom: 20,
-        color: '#DDD'
+        color: globalColors.textSecondary,
       },
 
       txtEndereco: {
-          color: '#DDD',
+          color: globalColors.textSecondary,
           fontSize: 10
       },
 

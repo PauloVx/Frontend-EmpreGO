@@ -11,6 +11,7 @@ import { useFocusEffect } from '@react-navigation/core';
 
 const LeftDrawer = (props: DrawerContentComponentProps) => {
   const [user, setUser] = useState<User>();
+  const [update, setUpdate] = useState<boolean>(false);
 
   async function logout() {
     await AppStorage.deleteData("token_jwt");
@@ -22,6 +23,7 @@ const LeftDrawer = (props: DrawerContentComponentProps) => {
   }
 
   const redirectToPerfil = () => {
+    setUpdate(true);
     props.navigation.navigate('Perfil', { user });
   }
 
@@ -43,7 +45,7 @@ const LeftDrawer = (props: DrawerContentComponentProps) => {
   useFocusEffect(
     React.useCallback(() => {
       getUserData();
-    }, [])
+    }, [update])
   );
   
   const iconSize = 20;

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text, StyleSheet, View, ListRenderItemInfo } from 'react-native';
+import { Text, StyleSheet, View, ListRenderItemInfo, RefreshControl } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { Entypo } from '@expo/vector-icons';
 import { useState } from 'react';
@@ -35,7 +35,8 @@ const listItem = (jobs: ListRenderItemInfo<Job>): JSX.Element => {
 
 const Candidaturas = (): JSX.Element => {
   const [jobs, setJobs] = useState<Array<Job>>([]);
-
+  const [loading, setLoading] = useState<boolean>(false);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   async function fetchJobs() {
     const jwt = await AppStorage.readData('token_jwt');
@@ -57,6 +58,7 @@ const Candidaturas = (): JSX.Element => {
         data={ jobs }
         renderItem={ listItem }
         style={styles.flatList}
+        refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={fetchJobs} /> }
         keyExtractor={(job: Job, index: number) => job.id.toString() }
       />
 

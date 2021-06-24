@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { LinearGradient } from 'expo-linear-gradient';
-import { Text, StyleSheet, View, ListRenderItemInfo } from 'react-native';
+import { Text, StyleSheet, View, ListRenderItemInfo, RefreshControl } from 'react-native';
 import { globalColors } from '../../../globalStyles';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { Entypo } from '@expo/vector-icons';
@@ -37,6 +37,7 @@ const listItem = (jobs: ListRenderItemInfo<Job>): JSX.Element => {
 const Empregar = (): JSX.Element => {
   const navigation =  useNavigation();
   const [jobs, setJobs] = useState<Array<Job>>([]);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   function navigateToNewJob() {
     navigation.navigate('NewJob');
@@ -63,6 +64,7 @@ const Empregar = (): JSX.Element => {
         renderItem={ listItem }
         style={styles.flatList}
         keyExtractor={(job: Job, index: number) => job.id.toString() }
+        refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={fetchJobs} /> }
       />
 
       <View style={styles.btnContainer}>

@@ -52,6 +52,7 @@ const LoadedComponent = ({ user }: { user: User }): JSX.Element => {
             }
         })
         .then((res) => {
+            user.imagemPefil = localUri;
             showMessage({
                 message: "Imagem atualizada com sucesso!",
                 type: "success",
